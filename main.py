@@ -18,7 +18,7 @@ NARANJA = (255, 165, 0)
 GRIS = (128, 128, 128)
 ROSA = (255, 192, 203)
 TURQUESA = (64, 224, 208)
-MARRÓN = (139, 69, 19)
+DIEGO = (139, 69, 19)
 BLANCO = (255, 255, 255)
 NEGRO = (0, 0, 0)
 VERDE_OLIVA = (128, 128, 0)
@@ -31,11 +31,11 @@ LAVANDA = (230, 230, 250)
 SALVIA = (184, 211, 200)
 CORAL = (255, 127, 80)
 MARFIL = (255, 255, 240)
-CHOCOLATE = (210, 105, 30)
+RICARDO = (210, 105, 30)
 
 # Dimensiones de la ventana para un tablero de 5x5
-WIDTH = 800
-HEIGHT = 800
+WIDTH = 600
+HEIGHT = 600
 
 # Definición de fuentes de texto
 MAIN_FONT = pygame.font.SysFont('Arial', 40)
@@ -105,8 +105,6 @@ def pantalla_final(ultimo_nivel):
         screen.blit(texto3, (WIDTH // 2 - texto3.get_width() // 2, HEIGHT // 2 + texto3.get_height()))
         pygame.display.update()
 
-
-
 # Inicialización de variables de juego y cuadrícula de colores
 def main():
     pantalla_inicio()  # Llamada a la pantalla de inicio
@@ -126,7 +124,7 @@ def main():
         GRIS: pygame.Rect(0, 0, 160, 160),
         ROSA: pygame.Rect(0, 0, 160, 160),
         TURQUESA: pygame.Rect(0, 0, 160, 160),
-        MARRÓN: pygame.Rect(0, 0, 160, 160),
+        DIEGO: pygame.Rect(0, 0, 160, 160),
         BLANCO: pygame.Rect(0, 0, 160, 160),
         NEGRO: pygame.Rect(0, 0, 160, 160),
         VERDE_OLIVA: pygame.Rect(0, 0, 160, 160),
@@ -139,7 +137,7 @@ def main():
         SALVIA: pygame.Rect(0, 0, 160, 160),
         CORAL: pygame.Rect(0, 0, 160, 160),
         MARFIL: pygame.Rect(0, 0, 160, 160),
-        CHOCOLATE: pygame.Rect(0, 0, 160, 160)
+        RICARDO: pygame.Rect(0, 0, 160, 160)
 
         # Agrega más colores y posiciones para completar un tablero de 5x5
     }
@@ -177,7 +175,7 @@ def main():
     pantalla_final(level)
 
 def generate_color_sequence(length):
-    return [random.choice([ROJO, VERDE, AZUL, AMARILLO, MORADO, CIAN, MAGENTA, NARANJA, GRIS, ROSA, TURQUESA, MARRÓN, BLANCO, NEGRO, VERDE_OLIVA, VIOLETA, LIMA, PLATA, ORO, CELESTE, LAVANDA, SALVIA, CORAL, MARFIL, CHOCOLATE]) for _ in range(length)]
+    return [random.choice([ROJO, VERDE, AZUL, AMARILLO, MORADO, CIAN, MAGENTA, NARANJA, GRIS, ROSA, TURQUESA, DIEGO, BLANCO, NEGRO, VERDE_OLIVA, VIOLETA, LIMA, PLATA, ORO, CELESTE, LAVANDA, SALVIA, CORAL, MARFIL, RICARDO]) for _ in range(length)]
 
 def get_color_string(color):
     color_dictionary = {
@@ -200,7 +198,7 @@ def generate_sound(color):
         GRIS: SOUND_1,
         ROSA: SOUND_2,
         TURQUESA: SOUND_3,
-        MARRÓN: SOUND_4,
+        DIEGO: SOUND_4,
         BLANCO: SOUND_1,
         NEGRO: SOUND_2,
         VERDE_OLIVA: SOUND_3,
@@ -213,7 +211,7 @@ def generate_sound(color):
         SALVIA: SOUND_2,
         CORAL: SOUND_3,
         MARFIL: SOUND_4,
-        CHOCOLATE: SOUND_1
+        RICARDO: SOUND_1
     }
     sound = sound_dict.get(color, None)
     sound.play()
@@ -226,7 +224,7 @@ def display_sequence(sequence):
         pygame.display.update()
         time.sleep(1)
 
-def draw_window(color_rectangles, level):
+def draw_window(color_rectangles,level):
     screen.fill(BLANCO)
     row_count = 0
     col_count = 0
@@ -275,5 +273,4 @@ def compare_pressed_button(game_sequence, player_sequence):
             return False
     return True
 
-if __name__ == "__main__":
-    main()
+main()
