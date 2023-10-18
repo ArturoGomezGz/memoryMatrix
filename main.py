@@ -2,30 +2,54 @@ import pygame
 import random
 import time
 
+# Inicialización de Pygame y definición de colores
 pygame.init()
 pygame.font.init()
-pygame.mixer.init()
 
-# DIMENSIONES DE LA VENTANA
-WIDTH = 600
-HEIGHT = 650
+# Definición de colores en formato RGB para un tablero de 5x5
+ROJO = (255, 0, 0)
+VERDE = (0, 255, 0)
+AZUL = (0, 0, 255)
+AMARILLO = (255, 255, 0)
+MORADO = (128, 0, 128)
+CIAN = (0, 255, 255)
+MAGENTA = (255, 0, 255)
+NARANJA = (255, 165, 0)
+GRIS = (128, 128, 128)
+ROSA = (255, 192, 203)
+TURQUESA = (64, 224, 208)
+MARRÓN = (139, 69, 19)
+BLANCO = (255, 255, 255)
+NEGRO = (0, 0, 0)
+VERDE_OLIVA = (128, 128, 0)
+VIOLETA = (238, 130, 238)
+LIMA = (0, 255, 0)
+PLATA = (192, 192, 192)
+ORO = (255, 215, 0)
+CELESTE = (0, 191, 255)
+LAVANDA = (230, 230, 250)
+SALVIA = (184, 211, 200)
+CORAL = (255, 127, 80)
+MARFIL = (255, 255, 240)
+CHOCOLATE = (210, 105, 30)
 
-# colores en RGB
-WHITE = (255, 255, 255)
-BLACK = (36, 36, 36)
-RED = (194, 59, 33)
-GREEN = (0, 107, 61)
-BLUE = (0, 0, 131)
-YELLOW = (253, 204, 12)
+# Dimensiones de la ventana para un tablero de 5x5
+WIDTH = 800
+HEIGHT = 800
 
-# Font
+# Definición de fuentes de texto
 MAIN_FONT = pygame.font.SysFont('Arial', 40)
 LEVEL_FONT = pygame.font.SysFont('arialbold', 35)
 LEVEL_COMPLETE_FONT = pygame.font.SysFont('Tahoma', 32)
 GAME_OVER_FONT = pygame.font.SysFont('Tahoma', 27)
 COLOR_FONT = pygame.font.SysFont('Tahoma', 32)
 
-# ruidos culeros
+# Inicialización de Pygame y creación de la ventana
+pygame.display.set_caption("Memory matrix")
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+clock = pygame.time.Clock()
+
+# Definición de sonidos y carga de archivos de sonido
 LEVEL_PASSED_SOUND = pygame.mixer.Sound('Assets/level_passed.mp3')
 LEVEL_FAILED_SOUND = pygame.mixer.Sound('Assets/level_failed.mp3')
 SOUND_1 = pygame.mixer.Sound('Assets/sound_1.mp3')
@@ -33,47 +57,107 @@ SOUND_2 = pygame.mixer.Sound('Assets/sound_2.mp3')
 SOUND_3 = pygame.mixer.Sound('Assets/sound_3.mp3')
 SOUND_4 = pygame.mixer.Sound('Assets/sound_4.mp3')
 
-# innicializamos pygame
-pygame.display.set_caption("Memory matrix")
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-clock = pygame.time.Clock()
+def pantalla_inicio():
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    run = False
 
-CORRECT_COLOR = (0, 0, 0)
+        screen.fill(BLANCO)
+        mensaje = "Bienvenido a Memory Matrix"
+        mensaje2 = "Tienes que memorizar la secuencia y replicarla. ¿estas listo?"
+        mensaje3 = "Presiona ESPACIO para empezar"
+        texto3 = LEVEL_FONT.render(mensaje3, True, NEGRO)
+        screen.blit(texto3, (WIDTH // 2 - texto3.get_width() // 2, HEIGHT // 2 + texto3.get_height()))
+        texto = MAIN_FONT.render(mensaje, True, NEGRO)
+        texto2 = LEVEL_FONT.render(mensaje2, True, NEGRO)
+        screen.blit(texto, (WIDTH // 2 - texto.get_width() // 2, HEIGHT // 2 - texto.get_height()))
+        screen.blit(texto2, (WIDTH // 2 - texto2.get_width() // 2, HEIGHT // 2))
+        pygame.display.update()
+
+def pantalla_final(ultimo_nivel):
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+                if event.key == pygame.K_r:
+                    return  # Regresar al juego
+
+        screen.fill(BLANCO)
+        mensaje = "¡Felicidades!"
+        mensaje2 = f"Has completado el nivel {ultimo_nivel}"
+        mensaje3 = "Presiona Esc para salir"
+        texto = MAIN_FONT.render(mensaje, True, NEGRO)
+        texto2 = LEVEL_FONT.render(mensaje2, True, NEGRO)
+        texto3 = LEVEL_FONT.render(mensaje3, True, NEGRO)
+        screen.blit(texto, (WIDTH // 2 - texto.get_width() // 2, HEIGHT // 2 - texto.get_height()))
+        screen.blit(texto2, (WIDTH // 2 - texto2.get_width() // 2, HEIGHT // 2))
+        screen.blit(texto3, (WIDTH // 2 - texto3.get_width() // 2, HEIGHT // 2 + texto3.get_height()))
+        pygame.display.update()
 
 
+
+# Inicialización de variables de juego y cuadrícula de colores
 def main():
+    pantalla_inicio()  # Llamada a la pantalla de inicio
     sequence_length = level = 1
     game_sequence = generate_color_sequence(sequence_length)
     player_sequence = []
 
-    color_rectangles = {  # color : rectangle
-        RED: pygame.Rect(0, 100, 225, 225),  # x, y, largo y ancho del rectangulo
-        GREEN: pygame.Rect(0, 325, 225, 225),
-        BLUE: pygame.Rect(225, 100, 225, 225),
-        YELLOW: pygame.Rect(225, 325, 225, 225)
+    color_rectangles = {
+        ROJO: pygame.Rect(0, 0, 160, 160),
+        VERDE: pygame.Rect(0, 0, 160, 160),
+        AZUL: pygame.Rect(0, 0, 160, 160),
+        AMARILLO: pygame.Rect(0, 0, 160, 160),
+        MORADO: pygame.Rect(0, 0, 160, 160),
+        CIAN: pygame.Rect(0, 0, 160, 160),
+        MAGENTA: pygame.Rect(0, 0, 160, 160),
+        NARANJA: pygame.Rect(0, 0, 160, 160),
+        GRIS: pygame.Rect(0, 0, 160, 160),
+        ROSA: pygame.Rect(0, 0, 160, 160),
+        TURQUESA: pygame.Rect(0, 0, 160, 160),
+        MARRÓN: pygame.Rect(0, 0, 160, 160),
+        BLANCO: pygame.Rect(0, 0, 160, 160),
+        NEGRO: pygame.Rect(0, 0, 160, 160),
+        VERDE_OLIVA: pygame.Rect(0, 0, 160, 160),
+        VIOLETA: pygame.Rect(0, 0, 160, 160),
+        LIMA: pygame.Rect(0, 0, 160, 160),
+        PLATA: pygame.Rect(0, 0, 160, 160),
+        ORO: pygame.Rect(0, 0, 160, 160),
+        CELESTE: pygame.Rect(0, 0, 160, 160),
+        LAVANDA: pygame.Rect(0, 0, 160, 160),
+        SALVIA: pygame.Rect(0, 0, 160, 160),
+        CORAL: pygame.Rect(0, 0, 160, 160),
+        MARFIL: pygame.Rect(0, 0, 160, 160),
+        CHOCOLATE: pygame.Rect(0, 0, 160, 160)
+
+        # Agrega más colores y posiciones para completar un tablero de 5x5
     }
 
     display_sequence(game_sequence)
     running = True
     while running:
-
         for event in pygame.event.get():
-
-            # el usuario presiono el boton de salir.
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
-
-            # usuario presiona algún boton del mouse
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = pygame.mouse.get_pos()
-
                 for color, rect in color_rectangles.items():
                     if rect.collidepoint(x, y):
                         generate_sound(color)
                         player_sequence.append(color)
                         break
-
                 if compare_pressed_button(game_sequence, player_sequence):
                     if player_sequence == game_sequence:
                         sequence_length += 1
@@ -84,35 +168,57 @@ def main():
                         time.sleep(2)
                         display_sequence(game_sequence)
                 else:
-                    draw_game_over(f"PerdisTEC iwi ")
+                    draw_game_over("Perdiste :(")
                     running = False
                     break
-
         if running != False:
             draw_window(color_rectangles, str(level))
             clock.tick(60)
-
-        # Makes random RGB color sequence
-
+    pantalla_final(level)
 
 def generate_color_sequence(length):
-    return [random.choice([RED, GREEN, BLUE, YELLOW]) for _ in range(length)]
+    return [random.choice([ROJO, VERDE, AZUL, AMARILLO, MORADO, CIAN, MAGENTA, NARANJA, GRIS, ROSA, TURQUESA, MARRÓN, BLANCO, NEGRO, VERDE_OLIVA, VIOLETA, LIMA, PLATA, ORO, CELESTE, LAVANDA, SALVIA, CORAL, MARFIL, CHOCOLATE]) for _ in range(length)]
 
-
-# Returns the string equivalent of the RGB color
 def get_color_string(color):
-    color_dictionary = {RED: "ROJO", YELLOW: "AMARILLO", GREEN: "VERDE", BLUE: "AZUL"}
+    color_dictionary = {
+        ROJO: "ROJO", VERDE: "VERDE", AZUL: "AZUL", AMARILLO: "AMARILLO",
+        MORADO: "MORADO", CIAN: "CIAN", MAGENTA: "MAGENTA", NARANJA: "NARANJA",
+        ROSA: "ROSA", TURQUESA: "TURQUESA", GRIS: "GRIS"
+    }
     return color_dictionary.get(color, None)
 
-
 def generate_sound(color):
-    sound_dict = {RED: SOUND_1, BLUE: SOUND_2, YELLOW: SOUND_3, GREEN: SOUND_4}
+    sound_dict = {
+        ROJO: SOUND_1,
+        VERDE: SOUND_2,
+        AZUL: SOUND_3,
+        AMARILLO: SOUND_4,
+        MORADO: SOUND_1,
+        CIAN: SOUND_2,
+        MAGENTA: SOUND_3,
+        NARANJA: SOUND_4,
+        GRIS: SOUND_1,
+        ROSA: SOUND_2,
+        TURQUESA: SOUND_3,
+        MARRÓN: SOUND_4,
+        BLANCO: SOUND_1,
+        NEGRO: SOUND_2,
+        VERDE_OLIVA: SOUND_3,
+        VIOLETA: SOUND_4,
+        LIMA: SOUND_1,
+        PLATA: SOUND_2,
+        ORO: SOUND_3,
+        CELESTE: SOUND_4,
+        LAVANDA: SOUND_1,
+        SALVIA: SOUND_2,
+        CORAL: SOUND_3,
+        MARFIL: SOUND_4,
+        CHOCOLATE: SOUND_1
+    }
     sound = sound_dict.get(color, None)
     sound.play()
     return sound
 
-
-# Displays the sequence of colors the player must
 def display_sequence(sequence):
     for color in sequence:
         generate_sound(color)
@@ -120,72 +226,54 @@ def display_sequence(sequence):
         pygame.display.update()
         time.sleep(1)
 
-
-# interfaz principal del juego
 def draw_window(color_rectangles, level):
-    screen.fill(WHITE)
-
-    # titulo
-    color_game_text = MAIN_FONT.render("MEMORY MATRIX", True, BLACK)
-    screen.blit(color_game_text, (WIDTH / 2 - color_game_text.get_width() / 2, 0))
-
-    # muestra el texto de nivel
-    level_final_text = "Nivel " + level
-    render_level_text = LEVEL_FONT.render(level_final_text, True, BLACK)
-    screen.blit(render_level_text, (WIDTH / 2 - render_level_text.get_width() / 2, 60))
-
-   # muestra los 4 cuadraditos de colores
+    screen.fill(BLANCO)
+    row_count = 0
+    col_count = 0
+    rect_width = WIDTH // 5
+    rect_height = HEIGHT // 5
     for color, rect in color_rectangles.items():
+        rect.x = col_count * rect_width
+        rect.y = row_count * rect_height
+        rect.width = rect_width
+        rect.height = rect_height
         pygame.draw.rect(screen, color, rect)
-
+        col_count += 1
+        if col_count >= 5:
+            col_count = 0
+            row_count += 1
     pygame.display.update()
 
-
-# pantalla de juego terminado
 def draw_game_over(text):
     LEVEL_FAILED_SOUND.play()
-    screen.fill(WHITE)
-
-    draw_text = GAME_OVER_FONT.render(text, True, BLACK)
+    screen.fill(BLANCO)
+    draw_text = GAME_OVER_FONT.render(text, True, NEGRO)
     color_text = COLOR_FONT.render(get_color_string(CORRECT_COLOR), True, CORRECT_COLOR)
-
     total_width = draw_text.get_width() + color_text.get_width()
     start_x = WIDTH / 2 - total_width / 2
-
     screen.blit(draw_text, (start_x, HEIGHT / 2 - draw_text.get_height() / 2))
     screen.blit(color_text, (start_x + draw_text.get_width(), HEIGHT / 2 - color_text.get_height() / 2))
-
     pygame.display.update()
     pygame.time.delay(2000)
 
-
-# dibuja los niveles completados con la ventana
 def draw_level_completed(text):
     LEVEL_PASSED_SOUND.play()
-    screen.fill(WHITE)
-
-    draw_text = LEVEL_COMPLETE_FONT.render(text, True, BLACK)
-
+    screen.fill(BLANCO)
+    draw_text = LEVEL_COMPLETE_FONT.render(text, True, NEGRO)
     text_x = (WIDTH - draw_text.get_width()) // 2
     text_y = (HEIGHT - draw_text.get_height()) // 2
-
     screen.blit(draw_text, (text_x, text_y))
-
     pygame.display.update()
     pygame.time.delay(800)
 
-
-# compara la secuencia elegida por el jugadr por la seccuencia correcta.
 def compare_pressed_button(game_sequence, player_sequence):
     global CORRECT_COLOR
-
     length_player_sequence = len(player_sequence)
     for i in range(length_player_sequence):
         if player_sequence[i] != game_sequence[i]:
             CORRECT_COLOR = game_sequence[i]
             return False
     return True
-
 
 if __name__ == "__main__":
     main()
