@@ -125,7 +125,7 @@ def main():
             clock.tick(60)
 
 def generate_color_sequence(length):
-    return [random.choice([ROJO, VERDE, AZUL, AMARILLO, MORADO, CIAN, MAGENTA, NARANJA, ROSA, TURQUESA, GRIS]) for _ in range(length)]
+    return [random.choice([ROJO, VERDE, AZUL, AMARILLO, MORADO, CIAN, MAGENTA, NARANJA, GRIS, ROSA, TURQUESA, MARRÓN, BLANCO, NEGRO, VERDE_OLIVA, VIOLETA, LIMA, PLATA, ORO, CELESTE, LAVANDA, SALVIA, CORAL, MARFIL, CHOCOLATE]) for _ in range(length)]
 
 def get_color_string(color):
     color_dictionary = {
@@ -137,9 +137,31 @@ def get_color_string(color):
 
 def generate_sound(color):
     sound_dict = {
-        ROJO: SOUND_1, AZUL: SOUND_2, AMARILLO: SOUND_3, VERDE: SOUND_4,
-        MORADO: SOUND_1, CIAN: SOUND_2, MAGENTA: SOUND_3, NARANJA: SOUND_4,
-        ROSA: SOUND_1, TURQUESA: SOUND_2, GRIS: SOUND_3
+        ROJO: SOUND_1,
+        VERDE: SOUND_2,
+        AZUL: SOUND_3,
+        AMARILLO: SOUND_4,
+        MORADO: SOUND_1,
+        CIAN: SOUND_2,
+        MAGENTA: SOUND_3,
+        NARANJA: SOUND_4,
+        GRIS: SOUND_1,
+        ROSA: SOUND_2,
+        TURQUESA: SOUND_3,
+        MARRÓN: SOUND_4,
+        BLANCO: SOUND_1,
+        NEGRO: SOUND_2,
+        VERDE_OLIVA: SOUND_3,
+        VIOLETA: SOUND_4,
+        LIMA: SOUND_1,
+        PLATA: SOUND_2,
+        ORO: SOUND_3,
+        CELESTE: SOUND_4,
+        LAVANDA: SOUND_1,
+        SALVIA: SOUND_2,
+        CORAL: SOUND_3,
+        MARFIL: SOUND_4,
+        CHOCOLATE: SOUND_1
     }
     sound = sound_dict.get(color, None)
     sound.play()
