@@ -40,7 +40,28 @@ clock = pygame.time.Clock()
 
 CORRECT_COLOR = (0, 0, 0)
 
+def pantalla_inicio():
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    run = False
 
+        screen.fill(BLANCO)
+        mensaje = "Bienvenido a Memory Matrix"
+        mensaje2 = "Tienes que memorizar la secuencia y replicarla. ¿estas listo?"
+        mensaje3 = "Presiona ESPACIO para empezar"
+        texto3 = LEVEL_FONT.render(mensaje3, True, NEGRO)
+        screen.blit(texto3, (WIDTH // 2 - texto3.get_width() // 2, HEIGHT // 2 + texto3.get_height()))
+        texto = MAIN_FONT.render(mensaje, True, NEGRO)
+        texto2 = LEVEL_FONT.render(mensaje2, True, NEGRO)
+        screen.blit(texto, (WIDTH // 2 - texto.get_width() // 2, HEIGHT // 2 - texto.get_height()))
+        screen.blit(texto2, (WIDTH // 2 - texto2.get_width() // 2, HEIGHT // 2))
+        pygame.display.update()
 def main():
     sequence_length = level = 1
     game_sequence = generate_color_sequence(sequence_length)
