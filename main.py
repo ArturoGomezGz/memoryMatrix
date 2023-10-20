@@ -89,14 +89,14 @@ def pantalla_final(ultimo_nivel):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = False
+                    main()
                 if event.key == pygame.K_r:
                     return  # Regresar al juego
 
         screen.fill(BLANCO)
         mensaje = "¡Felicidades!"
         mensaje2 = f"Has completado el nivel {ultimo_nivel}"
-        mensaje3 = "Presiona Esc para salir"
+        mensaje3 = "Presiona Esc para volver a jugar"
         texto = MAIN_FONT.render(mensaje, True, NEGRO)
         texto2 = LEVEL_FONT.render(mensaje2, True, NEGRO)
         texto3 = LEVEL_FONT.render(mensaje3, True, NEGRO)
@@ -104,6 +104,7 @@ def pantalla_final(ultimo_nivel):
         screen.blit(texto2, (WIDTH // 2 - texto2.get_width() // 2, HEIGHT // 2))
         screen.blit(texto3, (WIDTH // 2 - texto3.get_width() // 2, HEIGHT // 2 + texto3.get_height()))
         pygame.display.update()
+
 
 # Inicialización de variables de juego y cuadrícula de colores
 def main():
