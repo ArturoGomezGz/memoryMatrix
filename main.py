@@ -53,7 +53,7 @@ def pantalla_inicio():
 
         screen.fill(BLACK)
         mensaje = "Bienvenido a Memory Matrix"
-        mensaje2 = "Tienes que memorizar la secuencia y replicarla. ¿estas listo?"
+        mensaje2 = "Tienes que memorizar la secuencia y replicarla."
         mensaje3 = "Presiona ESPACIO para empezar"
         texto3 = LEVEL_FONT.render(mensaje3, True, WHITE)
         screen.blit(texto3, (WIDTH // 2 - texto3.get_width() // 2, HEIGHT // 2 + texto3.get_height()))
