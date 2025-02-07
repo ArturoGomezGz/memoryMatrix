@@ -125,13 +125,13 @@ def main():
                     if player_sequence == game_sequence:
                         sequence_length += 1
                         level += 1
-                        draw_level_completed("Nivel completado, eres la verga! :)")
+                        draw_level_completed("Nivel completado :)")
                         game_sequence = generate_color_sequence(sequence_length)
                         player_sequence = []
                         time.sleep(2)
                         display_sequence(game_sequence)
                 else:
-                    draw_game_over(f"Valiste verga, pendejo :( ")
+                    draw_game_over(f"Perdiste :( ")
                     running = False
                     break
 
